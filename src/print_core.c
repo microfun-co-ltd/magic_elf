@@ -271,8 +271,76 @@ void print_core_prstatus(elf_info_t *elf_info)
       printf("     <RSP program header: %d>\n", program_header);
     }
   }
+  else if (elf_info->e_machine == 0xb7) // aarch64
+  {
+    if (pid == elf_info->core_search.pid)
+    {
+      elf_info->core_search.file_offset = elf_info->file_ptr;
+    }
+
+    uint64_t x0     = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x1     = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x2     = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x3     = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x4     = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x5     = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x6     = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x7     = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x8     = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x9     = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x10    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x11    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x12    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x13    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x14    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x15    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x16    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x17    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x18    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x19    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x20    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x21    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x22    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x23    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x24    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x25    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x26    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x27    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x28    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x29    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t x30    = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t sp     = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t pc     = (uint64_t)elf_info->read_int64(elf_info);
+    uint64_t pstate = (uint64_t)elf_info->read_int64(elf_info);
+           
+    printf("      x0 : %016" PRIx64 "     x1 : %016" PRIx64 "   x2 : %016" PRIx64 "\n",  x0 , x1 , x2 );
+    printf("      x3 : %016" PRIx64 "     x4 : %016" PRIx64 "   x5 : %016" PRIx64 "\n",  x3 , x4 , x5 );
+    printf("      x6 : %016" PRIx64 "     x7 : %016" PRIx64 "   x8 : %016" PRIx64 "\n",  x6 , x7 , x8 );
+    printf("      x9 : %016" PRIx64 "     x10: %016" PRIx64 "   x11: %016" PRIx64 "\n",  x9 , x10, x11);
+    printf("      x12: %016" PRIx64 "     x13: %016" PRIx64 "   x14: %016" PRIx64 "\n",  x12, x13, x14);
+    printf("      x15: %016" PRIx64 "     x16: %016" PRIx64 "   x17: %016" PRIx64 "\n",  x15, x16, x17);
+    printf("      x18: %016" PRIx64 "     x19: %016" PRIx64 "   x20: %016" PRIx64 "\n",  x18, x19, x20);
+    printf("      x21: %016" PRIx64 "     x22: %016" PRIx64 "   x23: %016" PRIx64 "\n",  x21, x22, x23);
+    printf("      x24: %016" PRIx64 "     x25: %016" PRIx64 "   x26: %016" PRIx64 "\n",  x24, x25, x26);
+    printf("      x27: %016" PRIx64 "     x28: %016" PRIx64 "   x29: %016" PRIx64 "\n",  x27, x28, x29);
+    printf("      x30: %016" PRIx64 "     sp : %016" PRIx64 "   pc : %016" PRIx64 "\n",  x30, sp , pc );
+    printf("   pstate: %016" PRIx64 "\n",  pstate );
+
+
+    int program_header = find_program_header(elf_info, pc);
+    if (program_header != -1)
+    {
+      printf("     <pc program header: %d>\n", program_header);
+    }
+    program_header = find_program_header(elf_info, sp);
+    if (program_header != -1)
+    {
+      printf("     <sp program header: %d>\n", program_header);
+    }
+  }
   else
   {
+    printf("    Unknown machine code: %d\n", elf_info->e_machine);
     elf_info->file_ptr = marker;
     return;
   }
