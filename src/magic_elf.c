@@ -130,13 +130,9 @@ int main(int argc, char *argv[])
     {
       printf("Error: Can't find function '%s'.\n", function_name);
     }
-      else
-    {
-      bits = 0;
-    }
-
-    bits = elf_info->buffer[4] == 1 ? 32 : 64;
   }
+
+  bits = elf_info->buffer[4] == 1 ? 32 : 64;
 
   if (symbol_name != NULL)
   {

@@ -65,23 +65,23 @@ int modify_function(
 
 static char *regs32[] =
 {
-  "ebx",
-  "ecx",
-  "edx",
-  "esi",
-  "edi",
-  "ebp",
-  "eax",
-  "xds",
-  "xes",
-  "xfs",
-  "xgs",
-  "orig_eax",
-  "eip",
-  "xcs",
-  "eflags",
-  "esp",
-  "xss",
+  "r0",
+  "r1",
+  "r2",
+  "r3",
+  "r4",
+  "r5",
+  "r6",
+  "r7",
+  "r8",
+  "r9",
+  "r10",
+  "r11",
+  "r12",
+  "sp",
+  "lr",
+  "pc",
+  "pstate",
   NULL
 };
 
@@ -147,7 +147,7 @@ int modify_core(
 
     if (regs32[index] == NULL)
     {
-      printf("Could not find register named %s\n", reg);
+      printf("Could not find 32-bit register named %s\n", reg);
       return -1;
     }
 
@@ -166,7 +166,7 @@ int modify_core(
 
     if (regs64[index] == NULL)
     {
-      printf("Could not find register named %s\n", reg);
+      printf("Could not find 64-bit register named %s\n", reg);
       return -1;
     }
 

@@ -271,6 +271,43 @@ void print_core_prstatus(elf_info_t *elf_info)
       printf("     <RSP program header: %d>\n", program_header);
     }
   }
+  else if (elf_info->e_machine == 0x28) // arm32
+  {
+    if (pid == elf_info->core_search.pid)
+    {
+      elf_info->core_search.file_offset = elf_info->file_ptr;
+    }
+
+    uint32_t r0     = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t r1     = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t r2     = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t r3     = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t r4     = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t r5     = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t r6     = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t r7     = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t r8     = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t r9     = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t r10    = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t r11    = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t r12    = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t sp     = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t lr     = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t pc     = (uint32_t)elf_info->read_int32(elf_info);
+    uint32_t pstate = (uint32_t)elf_info->read_int32(elf_info);
+
+    printf("      r0: %08x   r1: %08x    r2: %08x   r3: %08x\n", r0, r1, r2, r3);
+    printf("      r4: %08x   r5: %08x    r6: %08x   r7: %08x\n", r4, r5, r6, r7);
+    printf("      r8: %08x   r9: %08x   r10: %08x  r11: %08x\n", r8, r9, r10, r11);
+    printf("     r12: %08x   sp: %08x    lr: %08x   pc: %08x\n", r12, sp, lr, pc);
+    printf("  pstate: %08x\n", pstate);
+
+    int program_header = find_program_header(elf_info, pc);
+    if (program_header != -1)
+    {
+      printf("     <program header: %d>\n", program_header);
+    }
+  }
   else if (elf_info->e_machine == 0xb7) // aarch64
   {
     if (pid == elf_info->core_search.pid)
